@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Database</title>
+	<link rel="stylesheet" type="text/css" href="style.css">
+</head>
+<body style="width: 100%; height: 100%;">
+	<div class="xy_center" style="min-width: 80%; min-height: 80%; background-color: #000;">
+		<div class="window_wrapper">
+			<div class="nav_panel">
+				Products Database
+			</div>
+			<div class="side_panel">
+				<ul>
+					<button onclick="show_details()">
+						Детали
+					</button>
+					<br />
+					<button onclick="show_products()">
+						Продукты
+					</button>
+					<br />
+					<button onclick="show_materials()">
+						Материалы
+					</button>
+				</ul>
+			</div>
+			<div class="output_panel">
+				<button onclick="">изменить</button>
+				<button onclick="add_popup_show()">добавить</button>
+				<button onclick="">удалить</button>
+				<table id = "output_table" style="border: 2px solid #000;">
+					
+				</table>
+			</div>
+
+		</div>
+	</div>
+
+	<div id="abc">
+		<div id="popupContact">
+			<form action="#" id="form" method="post" name="form">
+				<img id="close" src="images/3.png" onclick ="add_popup_hide()">
+				<h2>Contact Us</h2>
+				<hr>
+				<input id="name" name="name" placeholder="Name" type="text">
+				<input id="email" name="email" placeholder="Email" type="text">
+				<textarea id="msg" name="message" placeholder="Message"></textarea>
+				<a href="javascript:%20check_empty()" id="submit">Send</a>
+			</form>
+		</div>
+	</div>
+
+	<script src="script.js"></script>
+</body>
+</html>
