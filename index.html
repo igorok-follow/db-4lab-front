@@ -3,6 +3,24 @@
 <head>
 	<title>Database</title>
 	<link rel="stylesheet" type="text/css" href="style.css">
+	<link rel="stylesheet" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css" />
+    <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
+    <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+    <script src="script.js"></script>
+    <script>
+        $(document).ready(function () {
+            var table = $('#output_table').DataTable();
+            $('#output_table tbody').on('click', 'tr', function () {
+                if ($(this).hasClass('selected')) {
+                    $(this).removeClass('selected');
+                }
+                else {
+                    table.$('tr.selected').removeClass('selected');
+                    $(this).addClass('selected');
+                }
+            });
+        });
+    </script>
 </head>
 <body style="width: 100%; height: 100%;">
 	<div class="xy_center" style="min-width: 80%; min-height: 80%; background-color: #000;">
@@ -12,45 +30,70 @@
 			</div>
 			<div class="side_panel">
 				<ul>
-					<button onclick="show_details()">
-						Детали
-					</button>
-					<br />
-					<button onclick="show_products()">
-						Продукты
-					</button>
-					<br />
-					<button onclick="show_materials()">
-						Материалы
-					</button>
+					<li><button onclick="show_details()">Детали</button></li>
+					<li><button onclick="show_products()">Продукты</button></li>
+					<li><button onclick="show_materials()">Материалы</button></li>
 				</ul>
 			</div>
 			<div class="output_panel">
-				<button onclick="">изменить</button>
-				<button onclick="add_popup_show()">добавить</button>
-				<button onclick="">удалить</button>
-				<table id = "output_table" style="border: 2px solid #000;">
-					
-				</table>
+				<button id="add_button" onclick="add_popup_show()" disabled>Добавить</button>
+				<button id="change_button" onclick="" disabled>Изменить</button>
+				<button id="delete_button" onclick="" disabled>Удалить</button>
+				<br />
+				<br />
+				<div id="table-wrapper">
+  					<div id="table-scroll">
+  						<table id = "output_table" class = "display"></table>
+					</div>
+				</div>
 			</div>
 
 		</div>
 	</div>
 
-	<div id="abc">
+	<div id="adddetails">
 		<div id="popupContact">
 			<form action="#" id="form" method="post" name="form">
 				<img id="close" src="images/3.png" onclick ="add_popup_hide()">
-				<h2>Contact Us</h2>
+				<h2>Добавить детали</h2>
+				<hr>
+				<input id="name" name="name" placeholder="Название детали" type="text">
+				<input id="weight" name="weight" step="0.01" placeholder="Масса" type="number">
+				<input id="material" name="material" placeholder="Название материала" type="text">
+				<br />
+				<br />
+				<a href="javascript:%20check_empty()" id="submit">Добавить</a>
+			</form>
+		</div>
+	</div>
+	<div id="addproducts">
+		<div id="popupContact">
+			<form action="#" id="form" method="post" name="form">
+				<img id="close" src="images/3.png" onclick ="add_popup_hide()">
+				<h2>Добавить продукты</h2>
 				<hr>
 				<input id="name" name="name" placeholder="Name" type="text">
 				<input id="email" name="email" placeholder="Email" type="text">
 				<textarea id="msg" name="message" placeholder="Message"></textarea>
-				<a href="javascript:%20check_empty()" id="submit">Send</a>
+				<!-- добавить доп таблицу с деталями и их количеством
+				добавить доп таблицу с названиями деталей и выбором имени детали -->
+				<a href="javascript:%20check_empty()" id="submit">Добавить</a>
 			</form>
 		</div>
 	</div>
-
-	<script src="script.js"></script>
+	<div id="addmaterials">
+		<div id="popupContact">
+			<form action="#" id="form" method="post" name="form">
+				<img id="close" src="images/3.png" onclick ="add_popup_hide()">
+				<h2>Добавить материалы</h2>
+				<hr>
+				<input id="name" name="name" placeholder="Название материала" type="text">
+				<input id="cost" name="cost" step="0.01" placeholder="Стоимость за грамм" type="number">
+				<br />
+				<br />
+				<a href="javascript:%20check_empty()" id="submit">Добавить</a>
+			</form>
+		</div>
+	</div>
 </body>
 </html>

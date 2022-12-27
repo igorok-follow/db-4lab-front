@@ -6,15 +6,17 @@
   top: 50%;
   -webkit-transform: translate(-50%, -50%);
   transform: translate(-50%, -50%);
+  height: 100%;
 }
 
 .window_wrapper {
   display: grid;
   grid-template-rows: 60px 1fr 60px;
-  grid-template-columns: 20% 1fr 15%;
+  grid-template-columns: 15% 1fr 15%;
+  height: 100%;
 }
 
-.nav_panel, .side_panel, .output_panel {
+.side_panel, .output_panel {
   margin: 5px;
   padding: 20px;
   background-color: white;
@@ -23,6 +25,11 @@
 .nav_panel {
   grid-column: 1 / 4;
   grid-row: 1;
+  text-align: center;
+  font-size: 20px;
+  padding: 15px;
+  margin: 5px;
+  background-color: white;
 }
 
 .side_panel {
@@ -36,7 +43,7 @@
 }
 
 /*------------------------FORM------------------------------*/
-#abc {
+#adddetails {
 width:100%;
 height:100%;
 opacity:.95;
@@ -47,6 +54,31 @@ position:fixed;
 background-color:#313131;
 overflow:auto
 }
+
+#addproducts {
+width:100%;
+height:100%;
+opacity:.95;
+top:0;
+left:0;
+display:none;
+position:fixed;
+background-color:#313131;
+overflow:auto
+}
+
+#addmaterials {
+width:100%;
+height:100%;
+opacity:.95;
+top:0;
+left:0;
+display:none;
+position:fixed;
+background-color:#313131;
+overflow:auto
+}
+
 img#close {
 position:absolute;
 right:-14px;
@@ -93,18 +125,24 @@ padding-left:40px;
 font-size:16px;
 font-family:raleway
 }
+input[type=number] {
+width:82%;
+padding:10px;
+margin-top:30px;
+border:1px solid #ccc;
+padding-left:40px;
+font-size:16px;
+font-family:raleway
+}
 #name {
-background-image:url(../images/name.jpg);
 background-repeat:no-repeat;
 background-position:5px 7px
 }
 #email {
-background-image:url(../images/email.png);
 background-repeat:no-repeat;
 background-position:5px 7px
 }
 textarea {
-background-image:url(../images/msg.png);
 background-repeat:no-repeat;
 background-position:5px 7px;
 width:82%;
@@ -136,4 +174,40 @@ color:red;
 font-weight:700
 }
 
-/*----------------------------------------------------------*/
+/*--------------------------Table---------------------------*/
+
+#output_table {
+  width: 100%;
+}
+
+td {padding: 5px; cursor: pointer;}
+
+.selected {
+  color: red;
+}
+
+#table-wrapper {
+  position:relative;
+  height: 70%;
+}
+#table-scroll {
+  height:700px;
+  border: 1px solid black;
+  overflow:auto;  
+  margin-top:20px;
+}
+
+
+/*--------------------------List----------------------------*/
+ul{
+  list-style:none;
+  margin:0;
+  padding:0;
+}
+li{
+  background:#fff;
+  -webkit-user-select:none;
+  -moz-user-select:none;
+  -ms-user-select:none;
+  user-select:none;
+}
