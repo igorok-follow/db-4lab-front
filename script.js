@@ -5,7 +5,7 @@ function update_selection() {
   for (var i = 0; i < tbl.rows.length; i++) {
     tbl.rows[i].onclick = function () {
       rIndex = this.rowIndex;
-      console.log(this.cells[0].innerHTML + this.cells[1].innerHTML);
+      document.cookie = "current_pk_selected=" + this.cells[0].innerHTML;
       for (var j = 0; j < tbl.rows.length; j++) {
         tbl.rows[j].classList.remove("selected");
       }
@@ -21,32 +21,129 @@ function update_selection() {
 }
 
 function show_details() {
-  // create async req and parse json -> create table
-  document.cookie = "tab=details;";
-  var arr = [['12', '21'],['12', '12'],['12', '12'],['12', '12'],['12', '12'],['12', '12'],['12', '12'],['12', '12'],['12', '12'],['12', '12'],['12', '12'],['12', '12'],['12', '12'],['12', '12'],['12', '12'],['12', '12'],['12', '12'],['12', '12'],['12', '12'],['12', '12'],['12', '12'],['12', '12'],['12', '12'],['12', '12'],['12', '12']];
-  tableClear();
-  tableCreate(arr);
-  update_selection();
+  try {
+      var json;
+
+      fetch('http://localhost:65000/api/get/details', {
+        method: 'POST',
+        headers: {
+            'Accept': 'application/json',
+        },
+      })
+      .then(response => response.json())
+      .then(response => {
+        document.cookie = "tab=details"
+        json = JSON.stringify(response);
+        var obj = JSON.parse(json);
+        tableClear();
+        tableCreate(obj.details.map(value => Object.values(value)));
+        update_selection();
+      });
+  } catch (e) {
+      return e;
+  }
 }
 
 function show_products() {
-  document.cookie = "tab=products"
-  var arr = [['13', '13'],['13', '13'],['13', '13']];
-  tableClear();
-  tableCreate(arr);
-  update_selection();
+  try {
+      var json;
+
+      fetch('http://localhost:65000/api/get/products', {
+        method: 'POST',
+        headers: {
+            'Accept': 'application/json',
+        },
+      })
+      .then(response => response.json())
+      .then(response => {
+        document.cookie = "tab=products"
+        json = JSON.stringify(response);
+        var obj = JSON.parse(json);
+        console.log(obj);
+        tableClear();
+        tableCreateProducts(obj.products.map(value => Object.values(value)));
+        update_selection();
+      });
+  } catch (e) {
+      return e;
+  }
 }
 
 function show_materials() {
-  document.cookie = "tab=materials"
-  var arr = [['14', '14'],['14', '14'],['14', '14']];
-  tableClear();
-  tableCreate(arr);
-  update_selection();
+  try {
+      var json;
+
+      fetch('http://localhost:65000/api/get/materials', {
+        method: 'POST',
+        headers: {
+            'Accept': 'application/json',
+        },
+      })
+      .then(response => response.json())
+      .then(response => {
+        document.cookie = "tab=materials"
+        json = JSON.stringify(response);
+        var obj = JSON.parse(json);
+        tableClear();
+        tableCreate(obj.materials.map(value => Object.values(value)));
+        update_selection();
+      });
+  } catch (e) {
+      return e;
+  }
 }
 
-function delete_details() {
+function delete_item() {
+  try {
+      var json;
+      var addr;
+      var body;
 
+      var tab = getCookie('tab');
+      switch(tab) {
+      case 'details':
+        addr = 'http://localhost:65000/api/delete/details';
+        body = JSON.stringify({"detail_name": getCookie('current_pk_selected')});
+        break;
+      case 'products':
+        addr = 'http://localhost:65000/api/delete/products';
+        body = JSON.stringify({"id": getCookie('current_pk_selected')});
+        break;
+      case 'materials':
+        addr = 'http://localhost:65000/api/delete/materials';
+        body = JSON.stringify({ "material_name": getCookie('current_pk_selected')});
+        break;
+      }
+
+      console.log(getCookie('current_pk_selected'));
+
+      fetch(addr, {
+        method: 'POST',
+        headers: {
+            'Accept': 'application/json',
+        },
+        body: body,
+      })
+      .then(response => {
+        console.log(response.status);
+        if (response.status == 200) {
+          alert("Удалено");
+        }
+        switch(tab) {
+        case 'details':
+          show_details();
+          break;
+        case 'products':
+          show_products();
+          break;
+        case 'materials':
+          show_materials();
+          break;
+        }
+      });
+  } catch (e) {
+      return e;
+  }
 }
 
 function delete_materials() {
@@ -118,4 +215,22 @@ function tableClear() {
   tbl = document.getElementById("output_table");
 
   tbl.innerHTML = '';
+}
+
+function tableCreateProducts(params) {
+  tbl = document.getElementById("output_table")
+
+  for (let i = 0; i < params.length; i++) {
+    const tr = tbl.insertRow();
+    for (let j = 0; j < params[i].length; j++) {
+      const td = tr.insertCell();
+
+      if (j != 2) {
+        td.appendChild(document.createTextNode(params[i][j]));
+      } else {
+        td.appendChild(document.createTextNode(params[i][j].map(value => Object.values(value))));
+      }
+      td.style.border = '1px solid black';
+    }
+  }
 }
