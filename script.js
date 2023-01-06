@@ -146,20 +146,186 @@ function delete_item() {
   }
 }
 
-function delete_materials() {
-  
-}
-
-function delete_products() {
-  
-}
-
 function check_empty() {
-  if (document.getElementById('name').value == "" || document.getElementById('email').value == "" || document.getElementById('msg').value == "") {
-    alert("Fill All Fields !");
-  } else {
-    document.getElementById('form').submit();
-    alert("Form Submitted Successfully...");
+//  if (document.getElementById('name').value == "" || document.getElementById('email').value == "" || document.getElementById('msg').value == "") {
+//    alert("Fill All Fields !");
+//  } else {
+//    document.getElementById('form').submit();
+//    alert("Form Submitted Successfully...");
+//  }
+    
+    tab = getCookie('tab');
+    current_action = getCookie('current_action');
+    
+    switch(tab) {
+    case 'details':
+      switch(current_action) {
+      case 'add':
+          add_details();
+          break;
+      case 'update':
+          update_details();
+          break;
+      }
+      break;
+            
+    case 'products':
+            
+      switch(current_action) {
+      case 'add':
+          add_products();
+          break;
+      case 'update':
+          update_products();
+          break;
+      }
+      break;
+            
+    case 'materials':
+            
+      switch(current_action) {
+      case 'add':
+          add_materials();
+          break;
+      case 'update':
+          update_materials();
+          break;
+      }
+      break;
+    }
+}
+
+function add_details() {
+    try {
+      var tab = getCookie(tab);
+      var addr;
+      var body;
+
+      // get all values by item id's   
+      addr = 'http://localhost:65000/api/insert/details';
+      body = JSON.stringify({ "detail": {
+          "name": 1,
+          "weight": 1,
+          "material_name": 1
+      }});
+
+      fetch(addr, {
+        method: 'POST',
+        headers: {
+            'Accept': 'application/json',
+        },
+        body: body,
+      })
+      .then(response => {
+        console.log(response.status);
+        if (response.status == 200) {
+          alert("Добавлено");
+        }
+        show_details();
+      });
+  } catch (e) {
+      return e;
+  }
+}
+function add_products() {
+    
+}
+function add_materials() {
+    try {
+      var tab = getCookie(tab);
+      var addr;
+      var body;
+
+      // get all values by item id's   
+      addr = 'http://localhost:65000/api/insert/materials';
+      body = JSON.stringify({ "material": {
+          "name": 1,
+          "cost_per_gram": 1
+      }});
+
+      fetch(addr, {
+        method: 'POST',
+        headers: {
+            'Accept': 'application/json',
+        },
+        body: body,
+      })
+      .then(response => {
+        console.log(response.status);
+        if (response.status == 200) {
+          alert("Добавлено");
+        }
+        show_materials();
+      });
+  } catch (e) {
+      return e;
+  }
+}
+
+function update_details() {
+    try {
+      var tab = getCookie(tab);
+      var addr;
+      var body;
+
+      // get all values by item id's   
+      addr = 'http://localhost:65000/api/update/details';
+      body = JSON.stringify({ "detail": {
+          "name": 1,
+          "weight": 1,
+          "material_name": 1
+      }});
+
+      fetch(addr, {
+        method: 'POST',
+        headers: {
+            'Accept': 'application/json',
+        },
+        body: body,
+      })
+      .then(response => {
+        console.log(response.status);
+        if (response.status == 200) {
+          alert("Добавлено");
+        }
+        show_details();
+      });
+  } catch (e) {
+      return e;
+  }
+}
+function update_products() {
+    
+}
+function update_materials() {
+    try {
+      var tab = getCookie(tab);
+      var addr;
+      var body;
+
+      // get all values by item id's   
+      addr = 'http://localhost:65000/api/update/materials';
+      body = JSON.stringify({ "material": {
+          "name": 1,
+          "cost_per_gram": 1
+      }});
+
+      fetch(addr, {
+        method: 'POST',
+        headers: {
+            'Accept': 'application/json',
+        },
+        body: body,
+      })
+      .then(response => {
+        console.log(response.status);
+        if (response.status == 200) {
+          alert("Добавлено");
+        }
+        show_materials();
+      });
+  } catch (e) {
+      return e;
   }
 }
 
@@ -167,6 +333,36 @@ function getCookie(name) {
   const value = `; ${document.cookie}`;
   const parts = value.split(`; ${name}=`);
   if (parts.length === 2) return parts.pop().split(';').shift();
+}
+
+function change_popup_show() {
+  tab = getCookie('tab');
+  switch(tab) {
+    case 'details':
+      document.getElementById('changedetails').style.display = "block";
+      break;
+    case 'products':
+      document.getElementById('changeproducts').style.display = "block";
+      break;
+    case 'materials':
+      document.getElementById('changematerials').style.display = "block";
+      break;
+  }
+}
+
+function change_popup_hide(){
+  tab = getCookie('tab');
+  switch(tab) {
+    case 'details':
+      document.getElementById('changedetails').style.display = "none";
+      break;
+    case 'products':
+      document.getElementById('changeproducts').style.display = "none";
+      break;
+    case 'materials':
+      document.getElementById('changematerials').style.display = "none";
+      break;
+  }
 }
 
 function add_popup_show() {

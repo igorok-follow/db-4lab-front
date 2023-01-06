@@ -37,7 +37,7 @@
 			</div>
 			<div class="output_panel">
 				<button id="add_button" onclick="add_popup_show()" disabled>Добавить</button>
-				<button id="change_button" onclick="" disabled>Изменить</button>
+				<button id="change_button" onclick="change_popup_show()" disabled>Изменить</button>
 				<button id="delete_button" onclick="delete_item()" disabled>Удалить</button>
 				<br />
 				<br />
@@ -57,9 +57,9 @@
 				<img id="close" src="images/3.png" onclick ="add_popup_hide()">
 				<h2>Добавить детали</h2>
 				<hr>
-				<input id="name" name="name" placeholder="Название детали" type="text">
-				<input id="weight" name="weight" step="0.01" placeholder="Масса" type="number">
-				<input id="material" name="material" placeholder="Название материала" type="text">
+				<input id="add_detail_name" name="name" placeholder="Название детали" type="text">
+				<input id="add_detail_weight" name="weight" step="0.01" placeholder="Масса" type="number">
+				<input id="add_detail_material" name="material" placeholder="Название материала" type="text">
 				<br />
 				<br />
 				<a href="javascript:%20check_empty()" id="submit">Добавить</a>
@@ -72,9 +72,9 @@
 				<img id="close" src="images/3.png" onclick ="add_popup_hide()">
 				<h2>Добавить продукты</h2>
 				<hr>
-				<input id="name" name="name" placeholder="Name" type="text">
-				<input id="email" name="email" placeholder="Email" type="text">
-				<textarea id="msg" name="message" placeholder="Message"></textarea>
+				<input id="add_product_name" name="name" placeholder="Name" type="text">
+				<input id="add_product_email" name="email" placeholder="Email" type="text">
+				<textarea id="add_product_msg" name="message" placeholder="Message"></textarea>
 				<!-- добавить доп таблицу с деталями и их количеством
 				добавить доп таблицу с названиями деталей и выбором имени детали -->
 				<a href="javascript:%20check_empty()" id="submit">Добавить</a>
@@ -87,11 +87,54 @@
 				<img id="close" src="images/3.png" onclick ="add_popup_hide()">
 				<h2>Добавить материалы</h2>
 				<hr>
-				<input id="name" name="name" placeholder="Название материала" type="text">
-				<input id="cost" name="cost" step="0.01" placeholder="Стоимость за грамм" type="number">
+				<input id="add_material_name" name="name" placeholder="Название материала" type="text">
+				<input id="add_material_cost" name="cost" step="0.01" placeholder="Стоимость за грамм" type="number">
 				<br />
 				<br />
 				<a href="javascript:%20check_empty()" id="submit">Добавить</a>
+			</form>
+		</div>
+	</div>
+    
+    <div id="changedetails">
+		<div id="popupContact">
+			<form action="#" id="form" method="post" name="form">
+				<img id="close" src="images/3.png" onclick ="change_popup_hide()">
+				<h2>Изменить детали</h2>
+				<hr>
+				<input id="update_detail_name" name="name" placeholder="Название детали" type="text">
+				<input id="update_detail_weight" name="weight" step="0.01" placeholder="Масса" type="number">
+				<input id="update_detail_material" name="material" placeholder="Название материала" type="text">
+				<br />
+				<br />
+				<a href="javascript:%20check_empty()" id="submit">Изменить</a>
+			</form>
+		</div>
+	</div>
+	<div id="changeproducts">
+		<div id="popupContact">
+			<form action="#" id="form" method="post" name="form">
+				<img id="close" src="images/3.png" onclick ="change_popup_hide()">
+				<h2>Изменить продукты</h2>
+				<hr>
+				<input id="update_product_name" name="name" placeholder="Name" type="text">
+				<!-- добавить доп таблицу с деталями и их количеством
+				добавить доп таблицу с названиями деталей и выбором имени детали -->
+				<a href="javascript:%20check_empty()" id="submit">Изменить</a>
+			</form>
+		</div>
+	</div>
+	<div id="changematerials">
+		<div id="popupContact">
+			<form action="#" id="form" method="post" name="form">
+				<img id="close" src="images/3.png" onclick ="change_popup_hide()">
+				<h2>Изменить материалы</h2>
+				<hr>
+				<input id="update_material_name" name="name" placeholder="Название материала" type="text">
+				<input id="update_material_cost" name="cost" step="0.01" placeholder="Стоимость за грамм" type="number">
+				<br />
+				<br />
+				<a href="javascript:%20check_empty()" id="submit">Изменить</a>
 			</form>
 		</div>
 	</div>
