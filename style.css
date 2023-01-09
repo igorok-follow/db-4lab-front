@@ -114,7 +114,6 @@ position:fixed;
 background-color:#313131;
 overflow:auto
 }
-
 img#close {
 position:absolute;
 right:-14px;
@@ -129,13 +128,23 @@ margin-left:-202px;
 font-family:'Raleway',sans-serif
 }
 form {
-max-width:300px;
+max-width:900px;
 min-width:250px;
 padding:10px 50px;
 border:2px solid gray;
 border-radius:10px;
 font-family:raleway;
 background-color:#fff
+}
+#products_grid {
+  display: grid;
+  grid-template-columns: 0.5fr 1fr;
+}
+#add_product_details {
+  border: none;
+}
+.details_amount_input {
+  width: 50%;
 }
 p {
 margin-top:30px
@@ -163,6 +172,16 @@ font-family:raleway
 }
 input[type=number] {
 width:82%;
+padding:10px;
+margin-top:30px;
+border:1px solid #ccc;
+padding-left:40px;
+font-size:16px;
+font-family:raleway
+}
+
+#add_product_name {
+width:50%;
 padding:10px;
 margin-top:30px;
 border:1px solid #ccc;

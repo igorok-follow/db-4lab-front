@@ -315,9 +315,9 @@ function update_details() {
   }
 }
 
-// changes...
 function update_products() {
   try {
+    var json;
     var tab = getCookie(tab);
     var old_pk_selected = getCookie('old_pk_selected');
     var addr;
@@ -414,9 +414,13 @@ function change_popup_show() {
       document.getElementById('update_detail_weight').value = pks[1];
       document.getElementById('update_detail_material').value = pks[2];
       break;
+
+
     case 'products':
       document.getElementById('changeproducts').style.display = "block";
       break;
+
+
     case 'materials':
       document.getElementById('changematerials').style.display = "block";
 
@@ -456,6 +460,26 @@ function add_popup_show() {
       break;
     case 'products':
       document.getElementById('addproducts').style.display = "block";
+
+      try {
+        var details;
+
+        fetch('http://localhost:65000/api/get/details', {
+          method: 'POST',
+          headers: {
+              'Accept': 'application/json',
+          },
+        })
+        .then(response => response.json())
+        .then(response => {
+          json = JSON.stringify(response);
+          var obj = JSON.parse(json);
+          details = obj.details.map(value => Object.values(value));
+          additionalTableCreate(details);
+        });
+      } catch(e) {
+        return e;
+      }
       break;
     case 'materials':
       document.getElementById('addmaterials').style.display = "block";
@@ -482,11 +506,20 @@ function additionalTableCreate(params) {
 
   for (let i = 0; i < params.length; i++) {
     const tr = tbl.insertRow();
-    for (let j = 0; j < params[i].length; j++) {
-      const td = tr.insertCell();
-      td.appendChild(document.createTextNode(params[i][j]));
-      td.style.border = '1px solid black';
-    }
+    td = tr.insertCell();
+    td.appendChild(document.createTextNode(params[i][0]));
+    td = tr.insertCell();
+    div = document.createElement("div");
+    div.setAttribute("class", "details_amount_input");
+    input = document.createElement("input");
+    input.setAttribute("type", "number");
+    input.setAttribute("step", 1);
+    input.setAttribute("value", 0);
+    input.setAttribute("size", 10);
+    div.appendChild(input);
+    td.appendChild(div); 
+    
+    td.style.border = '1px solid black';
   }
 }
 
