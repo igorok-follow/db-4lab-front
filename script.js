@@ -1,11 +1,24 @@
 function update_selection() {
+  tab = getCookie('tab');
+
   document.querySelector('#add_button').disabled = false;
   var tbl = document.getElementById('output_table'), rIndex;
 
   for (var i = 0; i < tbl.rows.length; i++) {
     tbl.rows[i].onclick = function () {
       rIndex = this.rowIndex;
-      document.cookie = "current_pk_selected=" + this.cells[0].innerHTML;
+
+      document.cookie = "old_pk_selected=" + this.cells[0].innerHTML;
+      switch(tab){
+        case 'details':
+          document.cookie = "current_pk_selected=" + this.cells[0].innerHTML + '%%%' + this.cells[1].innerHTML + '%%%' + this.cells[2].innerHTML;
+          break;
+        case 'materials':
+          document.cookie = "current_pk_selected=" + this.cells[0].innerHTML + '%%%' + this.cells[1].innerHTML;
+          break;
+      }
+
+
       for (var j = 0; j < tbl.rows.length; j++) {
         tbl.rows[j].classList.remove("selected");
       }
@@ -100,18 +113,19 @@ function delete_item() {
       var body;
 
       var tab = getCookie('tab');
+      pk = getCookie('current_pk_selected').split('%%%')[0];
       switch(tab) {
       case 'details':
         addr = 'http://localhost:65000/api/delete/details';
-        body = JSON.stringify({"detail_name": getCookie('current_pk_selected')});
+        body = JSON.stringify({"detail_name": pk});
         break;
       case 'products':
         addr = 'http://localhost:65000/api/delete/products';
-        body = JSON.stringify({"id": getCookie('current_pk_selected')});
+        body = JSON.stringify({"id": pk});
         break;
       case 'materials':
         addr = 'http://localhost:65000/api/delete/materials';
-        body = JSON.stringify({ "material_name": getCookie('current_pk_selected')});
+        body = JSON.stringify({ "material_name": pk});
         break;
       }
 
@@ -147,13 +161,6 @@ function delete_item() {
 }
 
 function check_empty() {
-//  if (document.getElementById('name').value == "" || document.getElementById('email').value == "" || document.getElementById('msg').value == "") {
-//    alert("Fill All Fields !");
-//  } else {
-//    document.getElementById('form').submit();
-//    alert("Form Submitted Successfully...");
-//  }
-    
     tab = getCookie('tab');
     current_action = getCookie('current_action');
     
@@ -201,12 +208,15 @@ function add_details() {
       var addr;
       var body;
 
-      // get all values by item id's   
+      var name = document.getElementById('add_detail_name').value;
+      var weight = document.getElementById('add_detail_weight').value;
+      var material_name = document.getElementById('add_detail_material').value;
+
       addr = 'http://localhost:65000/api/insert/details';
       body = JSON.stringify({ "detail": {
-          "name": 1,
-          "weight": 1,
-          "material_name": 1
+          "name": name,
+          "weight": weight,
+          "material_name": material_name
       }});
 
       fetch(addr, {
@@ -220,7 +230,10 @@ function add_details() {
         console.log(response.status);
         if (response.status == 200) {
           alert("Добавлено");
+        } else {
+          alert("Деталь с таким наименованием уже существует");
         }
+        document.getElementById('add_detail_form').submit();
         show_details();
       });
   } catch (e) {
@@ -236,11 +249,12 @@ function add_materials() {
       var addr;
       var body;
 
-      // get all values by item id's   
+      var name = document.getElementById('add_material_name').value;
+      var cost = document.getElementById('add_material_cost').value;
       addr = 'http://localhost:65000/api/insert/materials';
       body = JSON.stringify({ "material": {
-          "name": 1,
-          "cost_per_gram": 1
+          "name": name,
+          "cost_per_gram": cost
       }});
 
       fetch(addr, {
@@ -251,10 +265,12 @@ function add_materials() {
         body: body,
       })
       .then(response => {
-        console.log(response.status);
         if (response.status == 200) {
           alert("Добавлено");
+        } else {
+          alert("Материал с таким наименованием уже существует");
         }
+        document.getElementById('add_material_form').submit();
         show_materials();
       });
   } catch (e) {
@@ -265,15 +281,16 @@ function add_materials() {
 function update_details() {
     try {
       var tab = getCookie(tab);
+      var old_pk_selected = getCookie('old_pk_selected');
       var addr;
       var body;
-
-      // get all values by item id's   
+      
       addr = 'http://localhost:65000/api/update/details';
       body = JSON.stringify({ "detail": {
-          "name": 1,
-          "weight": 1,
-          "material_name": 1
+          "name": document.getElementById('update_detail_name').value,
+          "weight": document.getElementById('update_detail_weight').value,
+          "material_name": document.getElementById('update_detail_material').value,
+          "old_name": old_pk_selected
       }});
 
       fetch(addr, {
@@ -286,28 +303,69 @@ function update_details() {
       .then(response => {
         console.log(response.status);
         if (response.status == 200) {
-          alert("Добавлено");
+          alert("Изменено");
+        } else {
+          alert("Ошибка");
         }
+        document.getElementById('update_detail_form').submit();
         show_details();
       });
   } catch (e) {
       return e;
   }
 }
+
+// changes...
 function update_products() {
+  try {
+    var tab = getCookie(tab);
+    var old_pk_selected = getCookie('old_pk_selected');
+    var addr;
+    var body;
     
+    addr = 'http://localhost:65000/api/update/details';
+    body = JSON.stringify({ "detail": {
+        "name": document.getElementById('update_detail_name').value,
+        "weight": document.getElementById('update_detail_weight').value,
+        "material_name": document.getElementById('update_detail_material').value,
+        "old_name": old_pk_selected
+    }});
+
+    fetch(addr, {
+      method: 'POST',
+      headers: {
+          'Accept': 'application/json',
+      },
+      body: body,
+    })
+    .then(response => {
+      console.log(response.status);
+      if (response.status == 200) {
+        alert("Изменено");
+      } else {
+        alert("Ошибка");
+      }
+      document.getElementById('update_detail_form').submit();
+      show_details();
+    });
+  } catch (e) {
+      return e;
+  }
 }
+
 function update_materials() {
     try {
       var tab = getCookie(tab);
+      var old_pk_selected = getCookie('old_pk_selected');
       var addr;
       var body;
 
       // get all values by item id's   
       addr = 'http://localhost:65000/api/update/materials';
       body = JSON.stringify({ "material": {
-          "name": 1,
-          "cost_per_gram": 1
+          "name": document.getElementById('update_material_name').value,
+          "cost_per_gram": document.getElementById('update_material_cost').value,
+          "old_name": old_pk_selected,
       }});
 
       fetch(addr, {
@@ -320,8 +378,11 @@ function update_materials() {
       .then(response => {
         console.log(response.status);
         if (response.status == 200) {
-          alert("Добавлено");
+          alert("Изменено");
+        } else {
+          alert("Ошибка");
         }
+        document.getElementById('update_material_form').submit();
         show_materials();
       });
   } catch (e) {
@@ -337,15 +398,36 @@ function getCookie(name) {
 
 function change_popup_show() {
   tab = getCookie('tab');
+  document.cookie = "current_action=update";
   switch(tab) {
     case 'details':
       document.getElementById('changedetails').style.display = "block";
+
+      pk = getCookie('current_pk_selected');
+
+      pks = pk.split('%%%');
+      if (pks.length != 3) {
+        return;
+      }
+
+      document.getElementById('update_detail_name').value = pks[0];
+      document.getElementById('update_detail_weight').value = pks[1];
+      document.getElementById('update_detail_material').value = pks[2];
       break;
     case 'products':
       document.getElementById('changeproducts').style.display = "block";
       break;
     case 'materials':
       document.getElementById('changematerials').style.display = "block";
+
+      pk = getCookie('current_pk_selected');
+
+      pks = pk.split('%%%');
+      if (pks.length != 2) {
+        return;
+      }
+      document.getElementById('update_material_name').value = pks[0];
+      document.getElementById('update_material_cost').value = pks[1];
       break;
   }
 }
@@ -367,6 +449,7 @@ function change_popup_hide(){
 
 function add_popup_show() {
   tab = getCookie('tab');
+  document.cookie = "current_action=add";
   switch(tab) {
     case 'details':
       document.getElementById('adddetails').style.display = "block";
@@ -391,6 +474,19 @@ function add_popup_hide(){
     case 'materials':
       document.getElementById('addmaterials').style.display = "none";
       break;
+  }
+}
+
+function additionalTableCreate(params) {
+  tbl = document.getElementById("add_product_details");
+
+  for (let i = 0; i < params.length; i++) {
+    const tr = tbl.insertRow();
+    for (let j = 0; j < params[i].length; j++) {
+      const td = tr.insertCell();
+      td.appendChild(document.createTextNode(params[i][j]));
+      td.style.border = '1px solid black';
+    }
   }
 }
 

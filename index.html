@@ -53,7 +53,7 @@
 
 	<div id="adddetails">
 		<div id="popupContact">
-			<form action="#" id="form" method="post" name="form">
+			<form id="add_detail_form" name="form">
 				<img id="close" src="images/3.png" onclick ="add_popup_hide()">
 				<h2>Добавить детали</h2>
 				<hr>
@@ -75,6 +75,7 @@
 				<input id="add_product_name" name="name" placeholder="Name" type="text">
 				<input id="add_product_email" name="email" placeholder="Email" type="text">
 				<textarea id="add_product_msg" name="message" placeholder="Message"></textarea>
+				<table id="add_product_details"></table>
 				<!-- добавить доп таблицу с деталями и их количеством
 				добавить доп таблицу с названиями деталей и выбором имени детали -->
 				<a href="javascript:%20check_empty()" id="submit">Добавить</a>
@@ -83,7 +84,7 @@
 	</div>
 	<div id="addmaterials">
 		<div id="popupContact">
-			<form action="#" id="form" method="post" name="form">
+			<form id="add_material_form" name="form">
 				<img id="close" src="images/3.png" onclick ="add_popup_hide()">
 				<h2>Добавить материалы</h2>
 				<hr>
@@ -98,7 +99,7 @@
     
     <div id="changedetails">
 		<div id="popupContact">
-			<form action="#" id="form" method="post" name="form">
+			<form action="" id="update_detail_form" method="get" name="form">
 				<img id="close" src="images/3.png" onclick ="change_popup_hide()">
 				<h2>Изменить детали</h2>
 				<hr>
@@ -111,22 +112,22 @@
 			</form>
 		</div>
 	</div>
-	<div id="changeproducts">
+	<!-- <div id="changeproducts">
 		<div id="popupContact">
-			<form action="#" id="form" method="post" name="form">
+			<form action="#" id="update_product_form" method="post" name="form">
 				<img id="close" src="images/3.png" onclick ="change_popup_hide()">
 				<h2>Изменить продукты</h2>
 				<hr>
-				<input id="update_product_name" name="name" placeholder="Name" type="text">
+				<input id="update_product_name" name="name" placeholder="Name" type="text"> -->
 				<!-- добавить доп таблицу с деталями и их количеством
 				добавить доп таблицу с названиями деталей и выбором имени детали -->
-				<a href="javascript:%20check_empty()" id="submit">Изменить</a>
+<!-- 				<a href="javascript:%20check_empty()" id="submit">Изменить</a>
 			</form>
 		</div>
-	</div>
+	</div> -->
 	<div id="changematerials">
 		<div id="popupContact">
-			<form action="#" id="form" method="post" name="form">
+			<form action="" id="update_material_form" method="get" name="form">
 				<img id="close" src="images/3.png" onclick ="change_popup_hide()">
 				<h2>Изменить материалы</h2>
 				<hr>
