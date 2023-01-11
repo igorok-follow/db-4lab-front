@@ -68,7 +68,7 @@
 	</div>
 	<div id="addproducts">
 		<div id="popupContact">
-			<form id="form" name="form">
+			<form id="add_product_form" name="form">
 				<img id="close" src="images/3.png" onclick ="add_popup_hide()">
 				<h2>Добавить продукты</h2>
 				<hr>
@@ -110,19 +110,20 @@
 			</form>
 		</div>
 	</div>
-	<!-- <div id="changeproducts">
+	<div id="changeproducts">
 		<div id="popupContact">
 			<form action="#" id="update_product_form" method="post" name="form">
 				<img id="close" src="images/3.png" onclick ="change_popup_hide()">
 				<h2>Изменить продукты</h2>
 				<hr>
-				<input id="update_product_name" name="name" placeholder="Name" type="text"> -->
-				<!-- добавить доп таблицу с деталями и их количеством
-				добавить доп таблицу с названиями деталей и выбором имени детали -->
-<!-- 				<a href="javascript:%20check_empty()" id="submit">Изменить</a>
+				<div id="products_grid">
+					<div><input id="update_product_name" name="name" placeholder="Name" type="text"></div>
+					<table id="update_product_details"></table>
+				</div>
+				<a href="javascript:%20check_empty()" id="submit">Изменить</a>
 			</form>
 		</div>
-	</div> -->
+	</div>
 	<div id="changematerials">
 		<div id="popupContact">
 			<form action="" id="update_material_form" method="get" name="form">

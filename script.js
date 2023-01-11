@@ -16,6 +16,9 @@ function update_selection() {
         case 'materials':
           document.cookie = "current_pk_selected=" + this.cells[0].innerHTML + '%%%' + this.cells[1].innerHTML;
           break;
+        case 'products':
+          document.cookie = "current_pk_selected=" + this.cells[0].innerHTML + '%%%' + this.cells[2].innerHTML + '%%%' + this.cells[1].innerHTML;
+          break;
       }
 
 
@@ -37,7 +40,7 @@ function show_details() {
   try {
       var json;
 
-      fetch('http://194.67.67.119:65000/api/get/details', {
+      fetch('http://localhost:65000/api/get/details', {
         method: 'POST',
         headers: {
             'Accept': 'application/json',
@@ -61,7 +64,7 @@ function show_products() {
   try {
       var json;
 
-      fetch('http://194.67.67.119:65000/api/get/products', {
+      fetch('http://localhost:65000/api/get/products', {
         method: 'POST',
         headers: {
             'Accept': 'application/json',
@@ -86,7 +89,7 @@ function show_materials() {
   try {
       var json;
 
-      fetch('http://194.67.67.119:65000/api/get/materials', {
+      fetch('http://localhost:65000/api/get/materials', {
         method: 'POST',
         headers: {
             'Accept': 'application/json',
@@ -116,15 +119,15 @@ function delete_item() {
       pk = getCookie('current_pk_selected').split('%%%')[0];
       switch(tab) {
       case 'details':
-        addr = 'http://194.67.67.119:65000/api/delete/details';
+        addr = 'http://localhost:65000/api/delete/details';
         body = JSON.stringify({"detail_name": pk});
         break;
       case 'products':
-        addr = 'http://194.67.67.119:65000/api/delete/products';
+        addr = 'http://localhost:65000/api/delete/products';
         body = JSON.stringify({"id": pk});
         break;
       case 'materials':
-        addr = 'http://194.67.67.119:65000/api/delete/materials';
+        addr = 'http://localhost:65000/api/delete/materials';
         body = JSON.stringify({ "material_name": pk});
         break;
       }
@@ -212,7 +215,7 @@ function add_details() {
       var weight = document.getElementById('add_detail_weight').value;
       var material_name = document.getElementById('add_detail_material').value;
 
-      addr = 'http://194.67.67.119:65000/api/insert/details';
+      addr = 'http://localhost:65000/api/insert/details';
       body = JSON.stringify({ "detail": {
           "name": name,
           "weight": weight,
@@ -241,8 +244,87 @@ function add_details() {
   }
 }
 function add_products() {
-    
+  arr = read_products_details_table();
+
+  try {
+      var tab = getCookie(tab);
+      var addr;
+      var body;
+
+      var name = document.getElementById('add_product_name').value;
+
+      addr = 'http://localhost:65000/api/insert/products';
+      body = JSON.stringify({ "product": {
+          "name": name,
+          "details": arr
+      }});
+
+      fetch(addr, {
+        method: 'POST',
+        headers: {
+            'Accept': 'application/json',
+        },
+        body: body,
+      })
+      .then(response => {
+        console.log(response.status);
+        if (response.status == 200) {
+          alert("Добавлено");
+        } else {
+          alert("Продукт с таким наименованием уже существует");
+        }
+        document.getElementById('add_product_form').submit();
+        show_products();
+      });
+  } catch (e) {
+      return e;
+  }
 }
+
+function read_products_details_table2() {
+  tbl = document.getElementById('update_product_details');
+
+  var rowLength = tbl.rows.length;
+
+  const arr = [];
+
+  console.log(rowLength);
+  for (let i = 0; i < rowLength; i++){
+    var oCells = tbl.rows.item(i).cells;
+    var cellLength = oCells.length;
+
+    var pk = oCells.item(0).innerHTML;
+    var pk_amount = document.getElementById('amount_input' + i).value;
+    if (pk_amount > 0) {
+      arr.push({"name": pk, "amount": parseInt(pk_amount)});
+    }
+  }
+
+  return arr;
+}
+
+function read_products_details_table() {
+  tbl = document.getElementById('add_product_details');
+
+  var rowLength = tbl.rows.length;
+
+  const arr = [];
+
+  console.log(rowLength);
+  for (let i = 0; i < rowLength; i++){
+    var oCells = tbl.rows.item(i).cells;
+    var cellLength = oCells.length;
+
+    var pk = oCells.item(0).innerHTML;
+    var pk_amount = document.getElementById('amount_input' + i).value;
+    if (pk_amount > 0) {
+      arr.push({"name": pk, "amount": parseInt(pk_amount)});
+    }
+  }
+
+  return arr;
+}
+
 function add_materials() {
     try {
       var tab = getCookie(tab);
@@ -251,7 +333,7 @@ function add_materials() {
 
       var name = document.getElementById('add_material_name').value;
       var cost = document.getElementById('add_material_cost').value;
-      addr = 'http://194.67.67.119:65000/api/insert/materials';
+      addr = 'http://localhost:65000/api/insert/materials';
       body = JSON.stringify({ "material": {
           "name": name,
           "cost_per_gram": cost
@@ -285,7 +367,7 @@ function update_details() {
       var addr;
       var body;
       
-      addr = 'http://194.67.67.119:65000/api/update/details';
+      addr = 'http://localhost:65000/api/update/details';
       body = JSON.stringify({ "detail": {
           "name": document.getElementById('update_detail_name').value,
           "weight": document.getElementById('update_detail_weight').value,
@@ -316,38 +398,41 @@ function update_details() {
 }
 
 function update_products() {
-  try {
-    var json;
-    var tab = getCookie(tab);
-    var old_pk_selected = getCookie('old_pk_selected');
-    var addr;
-    var body;
-    
-    addr = 'http://194.67.67.119:65000/api/update/details';
-    body = JSON.stringify({ "detail": {
-        "name": document.getElementById('update_detail_name').value,
-        "weight": document.getElementById('update_detail_weight').value,
-        "material_name": document.getElementById('update_detail_material').value,
-        "old_name": old_pk_selected
-    }});
+  arr = read_products_details_table2();
 
-    fetch(addr, {
-      method: 'POST',
-      headers: {
-          'Accept': 'application/json',
-      },
-      body: body,
-    })
-    .then(response => {
-      console.log(response.status);
-      if (response.status == 200) {
-        alert("Изменено");
-      } else {
-        alert("Ошибка");
-      }
-      document.getElementById('update_detail_form').submit();
-      show_details();
-    });
+  try {
+      var tab = getCookie(tab);
+      var addr;
+      var body;
+      pk = getCookie('current_pk_selected');
+      pks = pk.split('%%%');
+
+      var name = document.getElementById('update_product_name').value;
+
+      addr = 'http://localhost:65000/api/update/products';
+      body = JSON.stringify({ "product": {
+          "id": parseInt(pks[0]),
+          "name": name,
+          "details": arr
+      }});
+
+      fetch(addr, {
+        method: 'POST',
+        headers: {
+            'Accept': 'application/json',
+        },
+        body: body,
+      })
+      .then(response => {
+        console.log(response.status);
+        if (response.status == 200) {
+          alert("Изменено");
+        } else {
+          alert("Ошибка");
+        }
+        document.getElementById('add_product_form').submit();
+        show_products();
+      });
   } catch (e) {
       return e;
   }
@@ -361,7 +446,7 @@ function update_materials() {
       var body;
 
       // get all values by item id's   
-      addr = 'http://194.67.67.119:65000/api/update/materials';
+      addr = 'http://localhost:65000/api/update/materials';
       body = JSON.stringify({ "material": {
           "name": document.getElementById('update_material_name').value,
           "cost_per_gram": document.getElementById('update_material_cost').value,
@@ -396,6 +481,28 @@ function getCookie(name) {
   if (parts.length === 2) return parts.pop().split(';').shift();
 }
 
+function updateAmountsInAdditionalTable() {
+  tbl = document.getElementById('update_product_details');
+  var rowLength = tbl.rows.length;
+  pk = getCookie('current_pk_selected');
+  pks = pk.split('%%%');
+  pks = pks[1].split(',');
+  console.log(pks.length);
+  console.log(pks);
+
+  for (let i = 0; i < rowLength; i++){
+    var oCells = tbl.rows.item(i).cells;
+    var cellLength = oCells.length;
+
+    for (var j = 0; j < pks.length; j+=2) {
+      if (pks[j] == oCells.item(0).innerHTML) {
+        console.log(oCells.item(0).innerHTML + "   /   " + pks[j] + " " + pks[j+1]);
+        document.getElementById('amount_input' + i).value = pks[j+1];
+      }
+    }
+  }
+}
+
 function change_popup_show() {
   tab = getCookie('tab');
   document.cookie = "current_action=update";
@@ -418,8 +525,35 @@ function change_popup_show() {
 
     case 'products':
       document.getElementById('changeproducts').style.display = "block";
-      break;
 
+      try {
+        var details;
+
+        fetch('http://localhost:65000/api/get/details', {
+          method: 'POST',
+          headers: {
+              'Accept': 'application/json',
+          },
+        })
+        .then(response => response.json())
+        .then(response => {
+          json = JSON.stringify(response);
+          var obj = JSON.parse(json);
+          details = obj.details.map(value => Object.values(value));
+          updateAdditionalTableCreate(details);
+          updateAmountsInAdditionalTable();
+
+          pk = getCookie('current_pk_selected');
+
+          pks = pk.split('%%%');
+
+          document.getElementById('update_product_name').value = pks[2];
+        });
+      } catch(e) {
+        return e;
+      }
+      break;
+      break;
 
     case 'materials':
       document.getElementById('changematerials').style.display = "block";
@@ -444,6 +578,7 @@ function change_popup_hide(){
       break;
     case 'products':
       document.getElementById('changeproducts').style.display = "none";
+      document.getElementById('update_product_details').innerHTML = '';
       break;
     case 'materials':
       document.getElementById('changematerials').style.display = "none";
@@ -464,7 +599,7 @@ function add_popup_show() {
       try {
         var details;
 
-        fetch('http://194.67.67.119:65000/api/get/details', {
+        fetch('http://localhost:65000/api/get/details', {
           method: 'POST',
           headers: {
               'Accept': 'application/json',
@@ -491,13 +626,40 @@ function add_popup_hide(){
   switch(tab) {
     case 'details':
       document.getElementById('adddetails').style.display = "none";
+      document.getElementById('add_detail_form').reset();
       break;
     case 'products':
       document.getElementById('addproducts').style.display = "none";
+      document.getElementById('add_product_form').reset();
+      document.getElementById('add_product_details').innerHTML = '';
       break;
     case 'materials':
       document.getElementById('addmaterials').style.display = "none";
+      document.getElementById('add_materials_form').reset();
       break;
+  }
+}
+
+function updateAdditionalTableCreate(params) {
+  tbl = document.getElementById("update_product_details");
+
+  for (let i = 0; i < params.length; i++) {
+    const tr = tbl.insertRow();
+    td = tr.insertCell();
+    td.appendChild(document.createTextNode(params[i][0]));
+    td = tr.insertCell();
+    div = document.createElement("div");
+    div.setAttribute("class", "details_amount_input");
+    input = document.createElement("input");
+    input.setAttribute("id", "amount_input" + i);
+    input.setAttribute("type", "number");
+    input.setAttribute("step", 1);
+    input.setAttribute("value", 0);
+    input.setAttribute("size", 10);
+    div.appendChild(input);
+    td.appendChild(div);
+    
+    td.style.border = '1px solid black';
   }
 }
 
@@ -512,6 +674,7 @@ function additionalTableCreate(params) {
     div = document.createElement("div");
     div.setAttribute("class", "details_amount_input");
     input = document.createElement("input");
+    input.setAttribute("id", "amount_input" + i);
     input.setAttribute("type", "number");
     input.setAttribute("step", 1);
     input.setAttribute("value", 0);
