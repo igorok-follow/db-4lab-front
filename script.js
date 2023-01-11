@@ -37,7 +37,7 @@ function show_details() {
   try {
       var json;
 
-      fetch('http://localhost:65000/api/get/details', {
+      fetch('http://194.67.67.119:65000/api/get/details', {
         method: 'POST',
         headers: {
             'Accept': 'application/json',
@@ -61,7 +61,7 @@ function show_products() {
   try {
       var json;
 
-      fetch('http://localhost:65000/api/get/products', {
+      fetch('http://194.67.67.119:65000/api/get/products', {
         method: 'POST',
         headers: {
             'Accept': 'application/json',
@@ -86,7 +86,7 @@ function show_materials() {
   try {
       var json;
 
-      fetch('http://localhost:65000/api/get/materials', {
+      fetch('http://194.67.67.119:65000/api/get/materials', {
         method: 'POST',
         headers: {
             'Accept': 'application/json',
@@ -116,15 +116,15 @@ function delete_item() {
       pk = getCookie('current_pk_selected').split('%%%')[0];
       switch(tab) {
       case 'details':
-        addr = 'http://localhost:65000/api/delete/details';
+        addr = 'http://194.67.67.119:65000/api/delete/details';
         body = JSON.stringify({"detail_name": pk});
         break;
       case 'products':
-        addr = 'http://localhost:65000/api/delete/products';
+        addr = 'http://194.67.67.119:65000/api/delete/products';
         body = JSON.stringify({"id": pk});
         break;
       case 'materials':
-        addr = 'http://localhost:65000/api/delete/materials';
+        addr = 'http://194.67.67.119:65000/api/delete/materials';
         body = JSON.stringify({ "material_name": pk});
         break;
       }
@@ -212,7 +212,7 @@ function add_details() {
       var weight = document.getElementById('add_detail_weight').value;
       var material_name = document.getElementById('add_detail_material').value;
 
-      addr = 'http://localhost:65000/api/insert/details';
+      addr = 'http://194.67.67.119:65000/api/insert/details';
       body = JSON.stringify({ "detail": {
           "name": name,
           "weight": weight,
@@ -251,7 +251,7 @@ function add_materials() {
 
       var name = document.getElementById('add_material_name').value;
       var cost = document.getElementById('add_material_cost').value;
-      addr = 'http://localhost:65000/api/insert/materials';
+      addr = 'http://194.67.67.119:65000/api/insert/materials';
       body = JSON.stringify({ "material": {
           "name": name,
           "cost_per_gram": cost
@@ -285,7 +285,7 @@ function update_details() {
       var addr;
       var body;
       
-      addr = 'http://localhost:65000/api/update/details';
+      addr = 'http://194.67.67.119:65000/api/update/details';
       body = JSON.stringify({ "detail": {
           "name": document.getElementById('update_detail_name').value,
           "weight": document.getElementById('update_detail_weight').value,
@@ -323,7 +323,7 @@ function update_products() {
     var addr;
     var body;
     
-    addr = 'http://localhost:65000/api/update/details';
+    addr = 'http://194.67.67.119:65000/api/update/details';
     body = JSON.stringify({ "detail": {
         "name": document.getElementById('update_detail_name').value,
         "weight": document.getElementById('update_detail_weight').value,
@@ -361,7 +361,7 @@ function update_materials() {
       var body;
 
       // get all values by item id's   
-      addr = 'http://localhost:65000/api/update/materials';
+      addr = 'http://194.67.67.119:65000/api/update/materials';
       body = JSON.stringify({ "material": {
           "name": document.getElementById('update_material_name').value,
           "cost_per_gram": document.getElementById('update_material_cost').value,
@@ -464,7 +464,7 @@ function add_popup_show() {
       try {
         var details;
 
-        fetch('http://localhost:65000/api/get/details', {
+        fetch('http://194.67.67.119:65000/api/get/details', {
           method: 'POST',
           headers: {
               'Accept': 'application/json',
@@ -517,7 +517,7 @@ function additionalTableCreate(params) {
     input.setAttribute("value", 0);
     input.setAttribute("size", 10);
     div.appendChild(input);
-    td.appendChild(div); 
+    td.appendChild(div);
     
     td.style.border = '1px solid black';
   }
