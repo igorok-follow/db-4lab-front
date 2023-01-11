@@ -508,7 +508,7 @@ function change_popup_show() {
   document.cookie = "current_action=update";
   switch(tab) {
     case 'details':
-      document.getElementById('changedetails').style.display = "block";
+      document.getElementById('changedetails').style.display = "flex";
 
       pk = getCookie('current_pk_selected');
 
@@ -524,7 +524,7 @@ function change_popup_show() {
 
 
     case 'products':
-      document.getElementById('changeproducts').style.display = "block";
+      document.getElementById('changeproducts').style.display = "flex";
 
       try {
         var details;
@@ -556,7 +556,7 @@ function change_popup_show() {
       break;
 
     case 'materials':
-      document.getElementById('changematerials').style.display = "block";
+      document.getElementById('changematerials').style.display = "flex";
 
       pk = getCookie('current_pk_selected');
 
@@ -591,10 +591,10 @@ function add_popup_show() {
   document.cookie = "current_action=add";
   switch(tab) {
     case 'details':
-      document.getElementById('adddetails').style.display = "block";
+      document.getElementById('adddetails').style.display = "flex";
       break;
     case 'products':
-      document.getElementById('addproducts').style.display = "block";
+      document.getElementById('addproducts').style.display = "flex";
 
       try {
         var details;
@@ -617,7 +617,7 @@ function add_popup_show() {
       }
       break;
     case 'materials':
-      document.getElementById('addmaterials').style.display = "block";
+      document.getElementById('addmaterials').style.display = "flex";
       break;
   }
 }

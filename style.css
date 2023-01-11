@@ -50,6 +50,8 @@ opacity:.95;
 top:0;
 left:0;
 display:none;
+justify-content: center;
+align-items: center;
 position:fixed;
 background-color:#313131;
 overflow:auto
@@ -62,6 +64,8 @@ opacity:.95;
 top:0;
 left:0;
 display:none;
+justify-content: center;
+align-items: center;
 position:fixed;
 background-color:#313131;
 overflow:auto
@@ -74,6 +78,8 @@ opacity:.95;
 top:0;
 left:0;
 display:none;
+justify-content: center;
+align-items: center;
 position:fixed;
 background-color:#313131;
 overflow:auto
@@ -86,6 +92,8 @@ opacity:.95;
 top:0;
 left:0;
 display:none;
+justify-content: center;
+align-items: center;
 position:fixed;
 background-color:#313131;
 overflow:auto
@@ -98,6 +106,8 @@ opacity:.95;
 top:0;
 left:0;
 display:none;
+justify-content: center;
+align-items: center;
 position:fixed;
 background-color:#313131;
 overflow:auto
@@ -110,6 +120,8 @@ opacity:.95;
 top:0;
 left:0;
 display:none;
+justify-content: center;
+align-items: center;
 position:fixed;
 background-color:#313131;
 overflow:auto
@@ -120,12 +132,14 @@ right:-14px;
 top:-14px;
 cursor:pointer
 }
-div#popupContact {
+.popupContact {
 position:absolute;
-left:50%;
-top:17%;
-margin-left:-202px;
+margin-top: -10%;
 font-family:'Raleway',sans-serif
+}
+#products_popup {
+position:absolute;
+font-family:'Raleway',sans-serif;
 }
 form {
 max-width:900px;
@@ -136,9 +150,10 @@ border-radius:10px;
 font-family:raleway;
 background-color:#fff
 }
+
 #products_grid {
   display: grid;
-  grid-template-columns: 0.5fr 1fr;
+  grid-template-columns: 1fr 1fr;
 }
 #add_product_details {
   border: none;
@@ -162,7 +177,7 @@ border:0;
 border-top:1px solid #ccc
 }
 input[type=text] {
-width:82%;
+width:93%;
 padding:10px;
 margin-top:30px;
 border:1px solid #ccc;
@@ -171,13 +186,16 @@ font-size:16px;
 font-family:raleway
 }
 input[type=number] {
-width:82%;
+width:93%;
 padding:10px;
 margin-top:30px;
 border:1px solid #ccc;
 padding-left:40px;
 font-size:16px;
 font-family:raleway
+}
+#update_product_name {
+  width: 82%;
 }
 
 #add_product_name {
