@@ -40,7 +40,7 @@ function show_details() {
   try {
       var json;
 
-      fetch('http://194.67.67.119:65000/api/get/details', {
+      fetch('http://localhost:65000/api/get/details', {
         method: 'POST',
         headers: {
             'Accept': 'application/json',
@@ -64,7 +64,7 @@ function show_products() {
   try {
       var json;
 
-      fetch('http://194.67.67.119:65000/api/get/products', {
+      fetch('http://localhost:65000/api/get/products', {
         method: 'POST',
         headers: {
             'Accept': 'application/json',
@@ -89,7 +89,7 @@ function show_materials() {
   try {
       var json;
 
-      fetch('http://194.67.67.119:65000/api/get/materials', {
+      fetch('http://localhost:65000/api/get/materials', {
         method: 'POST',
         headers: {
             'Accept': 'application/json',
@@ -119,15 +119,15 @@ function delete_item() {
       pk = getCookie('current_pk_selected').split('%%%')[0];
       switch(tab) {
       case 'details':
-        addr = 'http://194.67.67.119:65000/api/delete/details';
+        addr = 'http://localhost:65000/api/delete/details';
         body = JSON.stringify({"detail_name": pk});
         break;
       case 'products':
-        addr = 'http://194.67.67.119:65000/api/delete/products';
+        addr = 'http://localhost:65000/api/delete/products';
         body = JSON.stringify({"id": pk});
         break;
       case 'materials':
-        addr = 'http://194.67.67.119:65000/api/delete/materials';
+        addr = 'http://localhost:65000/api/delete/materials';
         body = JSON.stringify({ "material_name": pk});
         break;
       }
@@ -178,9 +178,7 @@ function check_empty() {
           break;
       }
       break;
-            
     case 'products':
-            
       switch(current_action) {
       case 'add':
           add_products();
@@ -190,9 +188,7 @@ function check_empty() {
           break;
       }
       break;
-            
-    case 'materials':
-            
+    case 'materials':    
       switch(current_action) {
       case 'add':
           add_materials();
@@ -202,7 +198,79 @@ function check_empty() {
           break;
       }
       break;
+    case 'document1':
+      show_document1();
+      break;
+    case 'document2':
+      show_document2();
+      break;
     }
+}
+
+function show_document1() {
+  try {
+      addr = 'http://localhost:65000/api/get/document1';
+      body = JSON.stringify({ "name": document.getElementById('document1_product_name').value });
+
+      fetch(addr, {
+        method: 'POST',
+        headers: {
+            'Accept': 'application/json',
+        },
+        body: body,
+      })
+      .then(response => {
+        console.log(response.status);
+        if (response.status == 200) {
+          alert("Изменено");
+        } else {
+          alert("Ошибка");
+        }
+
+        document.getElementById('showdocument1form').submit();
+
+        json = JSON.stringify(response);
+        var obj = JSON.parse(json);
+        console.log(obj);
+        tableClear();
+        tableCreate(obj.details.map(value => Object.values(value)));
+      });
+  } catch (e) {
+      return e;
+  }
+}
+
+function show_document2() {
+  try {
+      addr = 'http://localhost:65000/api/get/document2';
+      body = JSON.stringify({ "name": document.getElementById('document2_material_name').value });
+
+      fetch(addr, {
+        method: 'POST',
+        headers: {
+            'Accept': 'application/json',
+        },
+        body: body,
+      })
+      .then(response => {
+        console.log(response.status);
+        if (response.status == 200) {
+          alert("Изменено");
+        } else {
+          alert("Ошибка");
+        }
+
+        document.getElementById('showdocument2form').submit();
+
+        json = JSON.stringify(response);
+        var obj = JSON.parse(json);
+        console.log(obj);
+        tableClear();
+        tableCreate(obj.details.map(value => Object.values(value)));
+      });
+  } catch (e) {
+      return e;
+  }
 }
 
 function add_details() {
@@ -215,7 +283,7 @@ function add_details() {
       var weight = document.getElementById('add_detail_weight').value;
       var material_name = document.getElementById('add_detail_material').value;
 
-      addr = 'http://194.67.67.119:65000/api/insert/details';
+      addr = 'http://localhost:65000/api/insert/details';
       body = JSON.stringify({ "detail": {
           "name": name,
           "weight": weight,
@@ -253,7 +321,7 @@ function add_products() {
 
       var name = document.getElementById('add_product_name').value;
 
-      addr = 'http://194.67.67.119:65000/api/insert/products';
+      addr = 'http://localhost:65000/api/insert/products';
       body = JSON.stringify({ "product": {
           "name": name,
           "details": arr
@@ -333,7 +401,7 @@ function add_materials() {
 
       var name = document.getElementById('add_material_name').value;
       var cost = document.getElementById('add_material_cost').value;
-      addr = 'http://194.67.67.119:65000/api/insert/materials';
+      addr = 'http://localhost:65000/api/insert/materials';
       body = JSON.stringify({ "material": {
           "name": name,
           "cost_per_gram": cost
@@ -367,7 +435,7 @@ function update_details() {
       var addr;
       var body;
       
-      addr = 'http://194.67.67.119:65000/api/update/details';
+      addr = 'http://localhost:65000/api/update/details';
       body = JSON.stringify({ "detail": {
           "name": document.getElementById('update_detail_name').value,
           "weight": document.getElementById('update_detail_weight').value,
@@ -409,7 +477,7 @@ function update_products() {
 
       var name = document.getElementById('update_product_name').value;
 
-      addr = 'http://194.67.67.119:65000/api/update/products';
+      addr = 'http://localhost:65000/api/update/products';
       body = JSON.stringify({ "product": {
           "id": parseInt(pks[0]),
           "name": name,
@@ -446,7 +514,7 @@ function update_materials() {
       var body;
 
       // get all values by item id's   
-      addr = 'http://194.67.67.119:65000/api/update/materials';
+      addr = 'http://localhost:65000/api/update/materials';
       body = JSON.stringify({ "material": {
           "name": document.getElementById('update_material_name').value,
           "cost_per_gram": document.getElementById('update_material_cost').value,
@@ -529,7 +597,7 @@ function change_popup_show() {
       try {
         var details;
 
-        fetch('http://194.67.67.119:65000/api/get/details', {
+        fetch('http://localhost:65000/api/get/details', {
           method: 'POST',
           headers: {
               'Accept': 'application/json',
@@ -599,7 +667,7 @@ function add_popup_show() {
       try {
         var details;
 
-        fetch('http://194.67.67.119:65000/api/get/details', {
+        fetch('http://localhost:65000/api/get/details', {
           method: 'POST',
           headers: {
               'Accept': 'application/json',
@@ -638,6 +706,26 @@ function add_popup_hide(){
       document.getElementById('add_materials_form').reset();
       break;
   }
+}
+
+function document1_popup_show() {
+  document.cookie = "tab=document1";
+  document.getElementById('showdocument1').style.display = "flex";
+}
+
+function document1_popup_hide() {
+  document.getElementById('showdocument1').style.display = "none";
+  document.getElementById('showdocument1form').reset();
+}
+
+function document2_popup_show() {
+  document.cookie = "tab=document2";
+  document.getElementById('showdocument2').style.display = "flex";
+}
+
+function document2_popup_hide() {
+  document.getElementById('showdocument2').style.display = "none";
+  document.getElementById('showdocument2form').reset();
 }
 
 function updateAdditionalTableCreate(params) {

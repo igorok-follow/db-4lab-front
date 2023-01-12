@@ -33,12 +33,15 @@
 					<li><button onclick="show_details()">Детали</button></li>
 					<li><button onclick="show_products()">Продукты</button></li>
 					<li><button onclick="show_materials()">Материалы</button></li>
+					<li><button onclick="document1_popup_show()">Документ 1</button></li>
+					<li><button onclick="document2_popup_show()">Документ 2</button></li>
 				</ul>
 			</div>
 			<div class="output_panel">
 				<button id="add_button" onclick="add_popup_show()" disabled>Добавить</button>
 				<button id="change_button" onclick="change_popup_show()" disabled>Изменить</button>
 				<button id="delete_button" onclick="delete_item()" disabled>Удалить</button>
+				<button id="export_button" onclick="export_document()" disabled>Экспорт в PDF</button>
 				<br />
 				<br />
 				<div id="table-wrapper">
@@ -50,6 +53,35 @@
 
 		</div>
 	</div>
+
+
+	<div id="showdocument1">
+		<div class="popupContact">
+			<form id="showdocument1form" name="form">
+				<img id="close" src="cross.svg" onclick ="document1_popup_hide()">
+				<h2>Документ 1</h2>
+				<hr>
+				<input id="document1_product_name" name="name" placeholder="Название продукта" type="text">
+				<br />
+				<br />
+				<a href="javascript:%20check_empty()" id="submit">Показать</a>
+			</form>
+		</div>
+	</div>
+	<div id="showdocument2">
+		<div class="popupContact">
+			<form id="showdocument2form" name="form">
+				<img id="close" src="cross.svg" onclick ="document2_popup_hide()">
+				<h2>Документ 2</h2>
+				<hr>
+				<input id="document2_material_name" name="name" placeholder="Название материала" type="text">
+				<br />
+				<br />
+				<a href="javascript:%20check_empty()" id="submit">Показать</a>
+			</form>
+		</div>
+	</div>
+
 
 	<div id="adddetails">
 		<div class="popupContact">
