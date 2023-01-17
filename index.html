@@ -1,11 +1,17 @@
 <!DOCTYPE html>
-<html>
+<html style="font-family: PTSans;">
 <head>
 	<title>Database</title>
 	<link rel="stylesheet" type="text/css" href="style.css">
 	<link rel="stylesheet" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css" />
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/devextreme/20.2.7/css/dx.light.min.css" integrity="sha512-E0t/hnnHcWGNKDBDAZWaQIxo+uOfKPClNR3Zznm5vv646Or4UFFQuvHUzQ39XRSGSedyon4OiYImX/aXFvLkpA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
     <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.5.3/jspdf.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.0.10/jspdf.plugin.autotable.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/devextreme/22.2.3/js/dx.all.js"></script>
+
+	<script type="text/javascript" src="https://unpkg.com/xlsx@0.15.1/dist/xlsx.full.min.js"></script>
     <script src="script.js"></script>
     <script>
         $(document).ready(function () {
@@ -41,7 +47,7 @@
 				<button id="add_button" onclick="add_popup_show()" disabled>Добавить</button>
 				<button id="change_button" onclick="change_popup_show()" disabled>Изменить</button>
 				<button id="delete_button" onclick="delete_item()" disabled>Удалить</button>
-				<button id="export_button" onclick="export_document()" disabled>Экспорт в PDF</button>
+				<button id="export_button" onclick="save_excel('xlsx')" disabled>Экспорт в PDF</button>
 				<br />
 				<br />
 				<div id="table-wrapper">
@@ -60,6 +66,8 @@
 			<form id="showdocument1form" name="form">
 				<img id="close" src="cross.svg" onclick ="document1_popup_hide()">
 				<h2>Документ 1</h2>
+				<p style="width: 200px;">Выдать детали заданного изделия, отсортированные по наименованию деталей, и
+стоимость материалов, из которых изготовлены детали</p>
 				<hr>
 				<input id="document1_product_name" name="name" placeholder="Название продукта" type="text">
 				<br />
@@ -73,6 +81,8 @@
 			<form id="showdocument2form" name="form">
 				<img id="close" src="cross.svg" onclick ="document2_popup_hide()">
 				<h2>Документ 2</h2>
+				<p style="width: 200px;">По наименованию материала выдать список изделий, в производстве которых он
+используется, упорядоченный по массе материалов</p>
 				<hr>
 				<input id="document2_material_name" name="name" placeholder="Название материала" type="text">
 				<br />
